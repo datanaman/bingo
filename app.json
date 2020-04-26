@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rn-material-kit-free",
-    "description": "React Native - Material Kit Free",
+    "name": "Virtual Bingo",
+    "description": "Game Night",
     "slug": "rn-material-kit-free",
     "privacy": "unlisted",
     "sdkVersion": "36.0.0",

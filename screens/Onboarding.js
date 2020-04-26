@@ -38,7 +38,7 @@ export default class Onboarding extends React.Component {
                 shadowless
                 style={styles.button}
                 color={materialTheme.COLORS.BUTTON_COLOR}
-                onPress={() => navigation.navigate('App')}>
+                onPress={() => navigation.navigate('App','Host Game')}>
                 START A NEW GAME
               </Button>
               
@@ -47,12 +47,10 @@ export default class Onboarding extends React.Component {
                 shadowless
                 style={styles.button}
                 color={materialTheme.COLORS.BUTTON_COLOR}
-                onPress={() => navigation.navigate('App')}>
+                onPress={() => navigation.navigate('App','Join Game')}>
                 JOIN AN EXISTING GAME
               </Button>
-            <Block center>
-              
-            </Block>
+            
           </Block>
         </Block>
       </Block>

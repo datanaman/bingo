@@ -97,9 +97,7 @@ function HomeStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header 
-              search
-              tabs
-              title="Home"
+              title="Hosting Game"
               navigation={navigation}
               scene={scene}
             />
@@ -111,7 +109,7 @@ function HomeStack(props) {
         component={ProScreen}
         options={{
           header: ({ navigation, scene }) => (
-            <Header back white transparent title="" navigation={navigation} scene={scene} />
+            <Header back white transparent title=""  navigation={navigation} scene={scene} />
           ),
           headerTransparent: true
         }}
@@ -121,7 +119,15 @@ function HomeStack(props) {
 }
 
 function AppStack(props) {
+
+
+ const screenNm = props.route.params.toString();
+  console.log(props.route.params);
+  console.log(screenNm);
   return (
+
+   
+
     <Drawer.Navigator
       style={{ flex: 1 }}
       drawerContent={props => (
@@ -150,10 +156,10 @@ function AppStack(props) {
           fontWeight: "normal"
         }
       }}
-      initialRouteName="Home"
+      initialRouteName={screenNm}
     >
       <Drawer.Screen
-        name="New Game"
+        name="Host Game"
         component={HomeStack}
         options={{
           drawerIcon: ({ focused }) => (
@@ -166,7 +172,7 @@ function AppStack(props) {
           )
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="Woman"
         component={ProScreen}
         options={{
@@ -222,9 +228,9 @@ function AppStack(props) {
             />
           )
         }}
-      />
+      /> */}
       <Drawer.Screen
-        name="Profile"
+        name="Join Game"
         component={ProfileStack}
         options={{
           drawerIcon: ({ focused }) => (
