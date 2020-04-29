@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } 
 import { Block, Text, theme } from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { Icon } from '../components';
+import { Icon, BingoTicket } from '../components';
 import { Images, materialTheme } from '../constants';
 import { HeaderHeight } from "../constants/utils";
 
@@ -11,6 +11,13 @@ const { width, height } = Dimensions.get('screen');
 const thumbMeasure = (width - 48 - 32) / 3;
 
 export default class Profile extends React.Component {
+  state = {
+    gameId: null,
+  }
+  componentDidMount() {
+    this.setState({ gameId: 5960 });
+  }
+
   render() {
     return (
       <Block flex style={styles.profile}>
@@ -44,39 +51,12 @@ export default class Profile extends React.Component {
             </Block>
           </ImageBackground>
         </Block>
+       
         <Block flex style={styles.options}>
+        <BingoTicket game={this.state.gameId}></BingoTicket>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Block row space="between" style={{ padding: theme.SIZES.BASE, }}>
-              <Block middle>
-                <Text bold size={12} style={{marginBottom: 8}}>36</Text>
-                <Text muted size={12}>Orders</Text>
-              </Block>
-              <Block middle>
-                <Text bold size={12} style={{marginBottom: 8}}>5</Text>
-                <Text muted size={12}>Bids & Offers</Text>
-              </Block>
-              <Block middle>
-                <Text bold size={12} style={{marginBottom: 8}}>2</Text>
-                <Text muted size={12}>Messages</Text>
-              </Block>
-            </Block>
-            <Block row space="between" style={{ paddingVertical: 16, alignItems: 'baseline' }}>
-              <Text size={16}>Recently viewed</Text>
-              <Text size={12} color={theme.COLORS.PRIMARY} onPress={() => this.props.navigation.navigate('Home')}>View All</Text>
-            </Block>
-            <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-              <Block row space="between" style={{ flexWrap: 'wrap' }} >
-                {Images.Viewed.map((img, imgIndex) => (
-                  <Image
-                    source={{ uri: img }}
-                    key={`viewed-${img}`}  
-                    resizeMode="cover"
-                    style={styles.thumb}
-                  />
-                ))}
-              </Block>
-            </Block>
-          </ScrollView>
+         
+           </ScrollView>
         </Block>
       </Block>
     );
@@ -120,7 +100,7 @@ const styles = StyleSheet.create({
   options: {
     position: 'relative',
     padding: theme.SIZES.BASE,
-    marginHorizontal: theme.SIZES.BASE,
+    marginHorizontal: theme.SIZES.BASE -20,
     marginTop: -theme.SIZES.BASE * 7,
     borderTopLeftRadius: 13,
     borderTopRightRadius: 13,

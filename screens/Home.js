@@ -1,57 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Button, Block, Text, Input, theme } from "galio-framework";
-import materialTheme from '../constants/Theme';
-import { Icon, Product } from "../components/";
+import materialTheme from "../constants/Theme";
+import { Icon, Product , BingoGrid } from "../components/";
+import * as Progress from "react-native-progress";
 
 const { width } = Dimensions.get("screen");
-import products from "../constants/products";
-import { FlatList } from "react-native-gesture-handler";
-
-let data = [];
 
 export default class Home extends React.Component {
-
- 
-
   constructor(props) {
     super(props);
     this.state = {
-      gameData : []
-    }
+      gameId: null,
+      gameData: [],
+      lastCalledNumber: null,
+      btnCallNumber: true,
+      isLoading: false,
+    };
+    let data = [];
+    this.setState({ gameData: data });
   }
 
-  componentDidMount()
-  {
-    data = [];
-    for(let i=1;i<=100;i++)
-    {
-      let item = { key: i.toString() , selected: false }
-      data.push(item);
-    } 
-    this.setState({gameData:data});
+  componentDidMount() {
+    let newgameId = Math.floor(1000 + Math.random() * 9000);
+    this.setState({ gameId: newgameId });
   }
-
-
-  // renderSearch = () => {
-  //   const { navigation } = this.props;
-  //   const iconCamera = <Icon size={16} color={theme.COLORS.MUTED} name="zoom-in" family="material" />
-
-  //   return (
-  //     <Input
-  //       right
-  //       color="black"
-  //       style={styles.search}
-  //       iconContent={iconCamera}
-  //       placeholder="What are you looking for?"
-  //       onFocus={() => navigation.navigate('Pro')}
-  //     />
-  //   )
-  // }
 
   renderTabs = () => {
     const { navigation } = this.props;
-
     return (
       <Block row style={styles.tabs}>
         <Button
@@ -66,7 +42,7 @@ export default class Home extends React.Component {
               style={{ paddingRight: 8 }}
             />
             <Text size={16} style={styles.tabTitle}>
-              Game ID
+              Game ID : {this.state.gameId}
             </Text>
           </Block>
         </Button>
@@ -83,7 +59,7 @@ export default class Home extends React.Component {
               style={{ paddingRight: 8 }}
             />
             <Text size={16} style={styles.tabTitle}>
-              12876
+              Last Call {this.state.lastCalledNumber}
             </Text>
           </Block>
         </Button>
@@ -92,89 +68,11 @@ export default class Home extends React.Component {
   };
 
 
-
-  renderItems = ({ item, index }) => {
-    console.log(item.selected);
-    let colorbutton = item.selected ? materialTheme.COLORS.SUCCESS : materialTheme.COLORS.BUTTON_COLOR;
-    console.log(colorbutton);
-    return (
-      <ScrollView>
-
-            <Block center>
-              <Button
-                shadowless
-                style={styles.button}      
-                color={colorbutton}>
-                {item.key}
-              </Button>
-            </Block>
-      </ScrollView>
-    );
-  };
-
-  renderProducts = () => {  
-
-   
-    console.log(this.state.gameData);
-   
-  const numcolumns = 10;
-    return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.products}
-      >
-        <Block flex>
-
-
-          <FlatList 
-          data={this.state.gameData} 
-          renderItem={this.renderItems} 
-          numColumns={numcolumns}
-          extraData={this.state.gameData}
-          keyExtractor={(item) => item.key} 
-          >
-          
-          </FlatList>
-
-        </Block>
-        <Block center>
-        <Button
-                shadowless
-                style={styles.button} 
-                color={materialTheme.COLORS.BUTTON_COLOR}
-                onPress={() => this.generateNumber()}>
-                Call a Number
-              </Button>
-              </Block>
-        
-
-      </ScrollView>
-    );
-  };
-
-  generateNumber()
-  {
-    const gennum =Math.floor(Math.random() * 100) + 1;
-    console.log('Number Generated:'+gennum);
-    if( this.state &&  this.state.gameData)
-    {
-    let  found = this.state.gameData.find(item => item.key == gennum.toString())
-    if(found)
-    {
-      found.selected = true;
-      console.log('F:'+found.key);
-      console.log('F:'+found.selected);
-    }
-    this.setState({gameData:this.state.gameData});
-  }
-
-  };
-
   render() {
     return (
       <Block flex center style={styles.home}>
         {this.renderTabs()}
-        {this.renderProducts()}
+        <BingoGrid game={this.state.gameId} showGenerateBtn="true"></BingoGrid>
       </Block>
     );
   }
@@ -226,6 +124,6 @@ const styles = StyleSheet.create({
   },
   products: {
     width: width - theme.SIZES.BASE * 2,
-    paddingVertical: theme.SIZES.BASE * 2,
+    paddingVertical: theme.SIZES.BASE * 3,
   },
 });
