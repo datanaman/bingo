@@ -26,8 +26,8 @@ function CustomDrawerContent({
       forceInset={{ top: "always", horizontal: "never" }}
     >
       <Block flex={0.25} style={styles.header}>
-        <TouchableWithoutFeedback
-          onPress={() => navigation.navigate("Profile")}
+         <TouchableWithoutFeedback
+          //onPress={() => navigation.navigate("Pro")}
         >
           <Block style={styles.profile}>
             <Image source={{ uri: profile.avatar }} style={styles.avatar} />
@@ -35,7 +35,7 @@ function CustomDrawerContent({
               {profile.name}
             </Text>
           </Block>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback> 
         <Block row>
           <Block middle style={styles.pro}>
             <Text size={16} color="white">
@@ -45,10 +45,10 @@ function CustomDrawerContent({
           <Text size={16} muted style={styles.seller}>
             {profile.type}
           </Text>
-          <Text size={16} color={materialTheme.COLORS.WARNING}>
+          {/* <Text size={16} color={materialTheme.COLORS.WARNING}>
             {profile.rating}{" "}
             <Icon name="shape-star" family="GalioExtra" size={14} />
-          </Text>
+          </Text> */}
         </Block>
       </Block>
       <Block flex style={{ paddingLeft: 7, paddingRight: 14 }}>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     borderRadius: 4,
     height: 19,
-    width: 38,
+    width: theme.SIZES.BASE *5,
   },
   seller: {
     marginRight: 16,

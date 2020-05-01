@@ -16,7 +16,7 @@ class Profile extends React.Component {
   state = {
     gameStatus: 'Not Started',
     gameId: null,
-    calledNumbers: ['Refresh','To','Check','Called Out Numbers'],
+    calledNumbers: ['Click','Refresh','Button','Below'],
     txtInputGameId : null,
   }
   componentDidMount() {
@@ -45,8 +45,17 @@ class Profile extends React.Component {
         {this.state.calledNumbers.map((item, key) => (
           //key is the index of the array 
           //item is the single item of the array
-          <View key={key}>
-            <Text color={theme.COLORS.MUTED} size={32} muted style={styles.seller}>{item}</Text>
+
+         
+
+
+          <View id={key}>
+             <Block row id={key}>
+          <Block middle style={styles.pro} id={key}>
+            <Text size={16} color="white" id={key}>{item}</Text>
+          </Block>
+        </Block>
+           
             
           </View>
         ))}
@@ -72,11 +81,10 @@ class Profile extends React.Component {
         right
         color="black"
         style={styles.search}
-        placeholder="Enter Game ID"
+        placeholder="Enter Game ID and Click Start Game"
         onChangeText={text => this.onChangeText(text)}
         //onFocus={() => navigation.navigate('Pro')}
-        iconContent={<Icon size={16} color={theme.COLORS.MUTED} name="magnifying-glass" 
-        family="entypo"/>}
+       
       />
     <Button
                 shadowless
@@ -89,29 +97,39 @@ class Profile extends React.Component {
     )
   }
 
+  renderStatus()
+{
+  if(this.state.gameId)
+  return (
+  <Block style={styles.profileTexts}>
+  <Text color="white" size={28} style={styles.textGame}>GAME</Text>
+  <Block row space="between">
+    <Block row>
+      <Block middle style={styles.pro}>
+        <Text size={16} color="white">{this.state.gameStatus}</Text>
+      </Block>
+      <Text color="white" size={16} muted style={styles.seller}>ID</Text>
+      <Text size={16} color={materialTheme.COLORS.WARNING}>
+      {this.state.gameId} <Icon name="shape-star" family="GalioExtra" size={14} />
+      </Text>
+    </Block>
+  </Block>  
+</Block>
+  )
+  else return;
+}
+
   render() {
     return (
       <Block flex style={styles.profile}>
         <Block flex>
           <ImageBackground
-            source={{uri: Images.Profile}}
+           source={require('../assets/images/home.jpg')}
+            //source={{uri: Images.Profile}}
             style={styles.profileContainer}
             imageStyle={styles.profileImage}>
             <Block flex row style={styles.profileDetails}>
-              <Block style={styles.profileTexts}>
-                <Text color="white" size={28} style={{ paddingBottom: 8 }}>GAME</Text>
-                <Block row space="between">
-                  <Block row>
-                    <Block middle style={styles.pro}>
-                      <Text size={16} color="white">{this.state.gameStatus}</Text>
-                    </Block>
-                    <Text color="white" size={16} muted style={styles.seller}>ID</Text>
-                    <Text size={16} color={materialTheme.COLORS.WARNING}>
-                    {this.state.gameId} <Icon name="shape-star" family="GalioExtra" size={14} />
-                    </Text>
-                  </Block>
-                </Block>  
-              </Block>
+              {this.renderStatus()}
               <Block style={styles.profileTexts}> 
             
                {this.renderGameStart()}
@@ -143,7 +161,7 @@ class Profile extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    //flex: 1,
+    //flex: 2,
     //paddingTop: 40,
     //justifyContent: 'flex-end',
     alignSelf: 'flex-end'
@@ -158,6 +176,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#606070',
     padding: 10,
+  },
+  textGame: {
+    fontSize: 16,
+    color: 'white',
+    padding: 10,
+    paddingBottom: 8
   },
   profile: {
     marginTop: Platform.OS === 'android' ? -HeaderHeight : 0,
@@ -183,17 +207,19 @@ const styles = StyleSheet.create({
     width: '50%',
     justifyContent: 'flex-end',
     textAlign: 'right',
+    position: 'relative',
   },
   pro: {
     backgroundColor: materialTheme.COLORS.LABEL,
     paddingHorizontal: 6,
     marginRight: theme.SIZES.BASE / 2,
     borderRadius: 4,
-    height: 19,
-    width: 38,
+    //height: 19,
+    //width: 38,
   },
   seller: {
     marginRight: theme.SIZES.BASE / 2,
+    fontSize: 16,
   },
   options: {
     position: 'relative',

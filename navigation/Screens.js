@@ -23,9 +23,9 @@ const Drawer = createDrawerNavigator();
 
 const profile = {
   avatar: Images.Profile,
-  name: "Rachel Brown",
-  type: "Seller",
-  plan: "Pro",
+  name: "Bingo",
+  type: "Options",
+  plan: "Game",
   rating: 4.8
 };
 
@@ -40,7 +40,7 @@ function ProfileStack(props) {
             <Header
               white
               transparent
-              title="Profile"
+              title="Bingo Game"
               scene={scene}
               navigation={navigation}
             />

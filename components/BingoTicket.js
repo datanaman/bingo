@@ -269,6 +269,24 @@ class BingoTicket extends React.Component {
       );
   }
 
+  renderNumbers = () => {
+
+    return (
+      <View style={styles.container}>
+      <ScrollView>
+        {/*Loop of JS which is like foreach loop*/}
+        {this.items.map((item, key) => (
+          //key is the index of the array 
+          //item is the single item of the array
+          <View key={key} style={styles.item}>
+            <Text style={styles.text}>{key}. {item}</Text>
+            <View style={styles.separator} />
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+    )
+  }
 
   renderCells = ({ item, index }) => {
     let colorbutton = item.selected
