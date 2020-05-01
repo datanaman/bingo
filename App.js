@@ -22,6 +22,12 @@ import { Images, products, materialTheme } from './constants/';
 import { NavigationContainer } from '@react-navigation/native';
 import Screens from './navigation/Screens';
 
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import gameReducer from './GameReducer';
+
+const store = createStore(gameReducer);
+
 // Before rendering any navigation stack
 import { enableScreens } from 'react-native-screens';
 enableScreens();
@@ -63,6 +69,7 @@ export default class App extends React.Component {
       );
     } else {
       return (
+        <Provider store={ store }>
         <NavigationContainer>
           <GalioProvider theme={materialTheme}>
             <Block flex>
@@ -71,6 +78,7 @@ export default class App extends React.Component {
             </Block>
           </GalioProvider>
         </NavigationContainer>
+        </Provider>
       );
     }
   }

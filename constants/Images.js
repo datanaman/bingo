@@ -17,6 +17,8 @@ const Viewed = [
   'https://images.unsplash.com/photo-1542068829-1115f7259450?fit=crop&w=240&q=80',
 ];
 
+const MasterData = null;
+
 export default {
   Onboarding,
   Pro,
@@ -24,4 +26,5 @@ export default {
   Profile,
   Viewed,
   Avatar,
+  MasterData 
 }

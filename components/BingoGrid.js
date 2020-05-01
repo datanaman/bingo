@@ -11,6 +11,7 @@ class BingoGrid extends React.Component {
 
   state = {
     gameData: [],
+    lastCalledNumber: null,
   }
 
   render() {
@@ -20,12 +21,11 @@ class BingoGrid extends React.Component {
 
    componentDidMount() {
     let data = [];
-    for (let i = 1; i <= 100; i++) {
+    for (let i = 1; i <= 90; i++) {
       let item = { key: i.toString(), selected: false };
       data.push(item);
     }
     this.setState({ gameData: data });
-   //setInterval(  this.displayNumbers(), 2000);
   }
 
   renderBingoGrid = (withGenerateBtn) => {
@@ -80,17 +80,6 @@ class BingoGrid extends React.Component {
     );
   }
 
-  displayNumbers()
-  {
-    var game = this.props.game;
-    if(game)
-    {
-    var url = `https://virtual-bingo.herokuapp.com/game/${game}`;
-    console.log(url);
-    this.makeNetworkCall(url);
-    }
-  }
-
   generateNumber() {
     var game = this.props.game;
     if(game)
@@ -139,6 +128,7 @@ class BingoGrid extends React.Component {
           this.setState({ lastCalledNumber: newCalledOutNumbers[i].key });
         }
       }
+      this.props.data.updateLastcall(this.state.lastCalledNumber);
       this.setState({ gameData: this.state.gameData });
     }
   }

@@ -1,21 +1,92 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
-import { Block, Text, theme } from 'galio-framework';
+import { View, StyleSheet, Dimensions, ScrollView, Image, ImageBackground, Platform } from 'react-native';
+import { Block, Text, theme , Input , Button} from 'galio-framework';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Icon, BingoTicket } from '../components';
-import { Images, materialTheme } from '../constants';
+import { Images, materialTheme , MasterData } from '../constants';
 import { HeaderHeight } from "../constants/utils";
+import { connect } from 'react-redux';
+
 
 const { width, height } = Dimensions.get('screen');
 const thumbMeasure = (width - 48 - 32) / 3;
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
   state = {
+    gameStatus: 'Not Started',
     gameId: null,
+    calledNumbers: ['Refresh','To','Check','Called Out Numbers'],
+    txtInputGameId : null,
   }
   componentDidMount() {
-    this.setState({ gameId: 5960 });
+    //this.setState({ gameId: 5140 });
+  }
+
+  startGame()
+  {
+    this.setState({ gameId: this.state.txtInputGameId });
+    this.setState({ gameStatus:'ON' });
+  }
+
+  changeCalledNumbers(item)
+  {
+    this.setState({calledNumbers: item});
+    console.log(this.state.calledNumbers);
+  }
+
+  renderNumbers = () => {
+    if(this.state.gameId)
+    return (
+      <View style={styles.container}>
+      <ScrollView>
+         
+        {/*Loop of JS which is like foreach loop*/}
+        {this.state.calledNumbers.map((item, key) => (
+          //key is the index of the array 
+          //item is the single item of the array
+          <View key={key}>
+            <Text color={theme.COLORS.MUTED} size={32} muted style={styles.seller}>{item}</Text>
+            
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+    )
+    else
+    return;
+  }
+
+  onChangeText(text)
+  {
+    this.setState({txtInputGameId: text});
+  }
+
+  renderGameStart = () => {
+    if(!this.state.gameId)
+    return (
+      <View style={styles.container}>
+         <Input
+         //label= "Please EnterEnter Game"
+         type= "number-pad"
+        right
+        color="black"
+        style={styles.search}
+        placeholder="Enter Game ID"
+        onChangeText={text => this.onChangeText(text)}
+        //onFocus={() => navigation.navigate('Pro')}
+        iconContent={<Icon size={16} color={theme.COLORS.MUTED} name="magnifying-glass" 
+        family="entypo"/>}
+      />
+    <Button
+                shadowless
+                style={styles.button}
+                color={materialTheme.COLORS.BUTTON_COLOR}
+                onPress={() => this.startGame()}>
+                Start Game
+              </Button>
+    </View>
+    )
   }
 
   render() {
@@ -26,34 +97,38 @@ export default class Profile extends React.Component {
             source={{uri: Images.Profile}}
             style={styles.profileContainer}
             imageStyle={styles.profileImage}>
-            <Block flex style={styles.profileDetails}>
+            <Block flex row style={styles.profileDetails}>
               <Block style={styles.profileTexts}>
-                <Text color="white" size={28} style={{ paddingBottom: 8 }}>Rachel Brown</Text>
+                <Text color="white" size={28} style={{ paddingBottom: 8 }}>GAME</Text>
                 <Block row space="between">
                   <Block row>
                     <Block middle style={styles.pro}>
-                      <Text size={16} color="white">Pro</Text>
+                      <Text size={16} color="white">{this.state.gameStatus}</Text>
                     </Block>
-                    <Text color="white" size={16} muted style={styles.seller}>Seller</Text>
+                    <Text color="white" size={16} muted style={styles.seller}>ID</Text>
                     <Text size={16} color={materialTheme.COLORS.WARNING}>
-                      4.8 <Icon name="shape-star" family="GalioExtra" size={14} />
+                    {this.state.gameId} <Icon name="shape-star" family="GalioExtra" size={14} />
                     </Text>
                   </Block>
-                  <Block>
-                    <Text color={theme.COLORS.MUTED} size={16}>
-                      <Icon name="map-marker" family="font-awesome" color={theme.COLORS.MUTED} size={16} />
-                      {` `} Los Angeles, CA
-                      </Text>
-                  </Block>
-                </Block>
+                </Block>  
               </Block>
-              <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.gradient} />
+              <Block style={styles.profileTexts}> 
+            
+               {this.renderGameStart()}
+               {this.renderNumbers()}
+                   
+              </Block>
+              <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.gradient} />        
             </Block>
+           
           </ImageBackground>
         </Block>
        
         <Block flex style={styles.options}>
-        <BingoTicket game={this.state.gameId}></BingoTicket>
+        <BingoTicket game={this.state.gameId} 
+          data={ {calledNumbers: this.state.calledNumbers,
+             changeCalledNumbers: this.changeCalledNumbers.bind(this)
+          }}></BingoTicket>
           <ScrollView showsVerticalScrollIndicator={false}>
          
            </ScrollView>
@@ -63,7 +138,27 @@ export default class Profile extends React.Component {
   }
 }
 
+
+
+
 const styles = StyleSheet.create({
+  container: {
+    //flex: 1,
+    //paddingTop: 40,
+    //justifyContent: 'flex-end',
+    alignSelf: 'flex-end'
+
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#707080',
+    width: '100%',
+  },
+  text: {
+    fontSize: 16,
+    color: '#606070',
+    padding: 10,
+  },
   profile: {
     marginTop: Platform.OS === 'android' ? -HeaderHeight : 0,
     marginBottom: -HeaderHeight * 2,
@@ -84,7 +179,10 @@ const styles = StyleSheet.create({
   profileTexts: {
     paddingHorizontal: theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE * 2,
-    zIndex: 2
+    zIndex: 2,
+    width: '50%',
+    justifyContent: 'flex-end',
+    textAlign: 'right',
   },
   pro: {
     backgroundColor: materialTheme.COLORS.LABEL,
@@ -126,4 +224,18 @@ const styles = StyleSheet.create({
     height: '30%',
     position: 'absolute',
   },
+  item_separator:
+  {
+    height: 1,
+    width: '100%',
+    backgroundColor: '#263238',
+  },
 });
+
+const mapStateToProps = (state) => {
+  const { games } = state
+  return { games }
+};
+
+
+export default connect(mapStateToProps)(Profile);

@@ -67,12 +67,18 @@ export default class Home extends React.Component {
     );
   };
 
+  updateLastcall(lastcall)
+  {
+    this.setState({lastCalledNumber: lastcall});
+  }
 
   render() {
     return (
       <Block flex center style={styles.home}>
         {this.renderTabs()}
-        <BingoGrid game={this.state.gameId} showGenerateBtn="true"></BingoGrid>
+        <BingoGrid game={this.state.gameId} 
+        data={{ updateLastcall: this.updateLastcall.bind(this)}}
+        showGenerateBtn="true"></BingoGrid>
       </Block>
     );
   }
